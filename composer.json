@@ -13,7 +13,8 @@
     },
     "autoload": {
         "psr-0": {
-            "Application\\": "module/Application/src/"
+            "Application\\": "module/Application/src/",
+            "Blog\\":        "module/Blog/src/"
         }
     }
 }

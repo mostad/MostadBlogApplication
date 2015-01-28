@@ -6,6 +6,7 @@ return [
         'ZfrRest',
 
         'Application',
+        'Blog',
     ],
 
     'module_listener_options' => [
