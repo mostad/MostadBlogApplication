@@ -1,4 +1,6 @@
 .idea
+.vagrant
 config/autoload/*.local.php
+html
 vendor
 composer.lock
