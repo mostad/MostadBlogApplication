@@ -10,5 +10,10 @@
         "doctrine/doctrine-orm-module": "~0.8",
         "zendframework/zendframework":  "~2.3",
         "zfr/zfr-rest":                 "~0.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "Application\\": "module/Application/src/"
+        }
     }
 }
