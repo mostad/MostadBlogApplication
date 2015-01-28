@@ -1,6 +1,10 @@
 <?php
 return [
     'modules' => [
+        'DoctrineModule',
+        'DoctrineORMModule',
+        'ZfrRest',
+
         'Application',
     ],
 
