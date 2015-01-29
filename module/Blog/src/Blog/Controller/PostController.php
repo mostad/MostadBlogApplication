@@ -2,6 +2,7 @@
 namespace Blog\Controller;
 
 use Blog\Entity\Post;
+use Blog\Service\PostService;
 use Doctrine\ORM\EntityManager;
 use ZfrRest\Mvc\Controller\AbstractRestfulController;
 use ZfrRest\View\Model\ResourceViewModel;
@@ -12,18 +13,27 @@ use ZfrRest\View\Model\ResourceViewModel;
  */
 class PostController extends AbstractRestfulController
 {
+    /**
+     * @var PostService
+     */
+    protected $postService;
+
+    /**
+     * @param PostService $postService
+     */
+    public function __construct(PostService $postService)
+    {
+        $this->postService = $postService;
+    }
+
+    /**
+     * @param  array $params
+     * @return ResourceViewModel
+     */
     public function get(array $params)
     {
-        // TODO: Move to DI
-        /** @var \Doctrine\Common\Persistence\ObjectManager $objectManager */
-        $objectManager  = $this->getServiceLocator()->get(EntityManager::class);
-        $postRepository = $objectManager->getRepository(Post::class);
-
-        $id   = $params['id'];
-        $post = $postRepository->find($id);
-
         return new ResourceViewModel([
-            'post' => $post,
+            'post' => $this->postService->getPost($params['id']),
         ]);
     }
 }

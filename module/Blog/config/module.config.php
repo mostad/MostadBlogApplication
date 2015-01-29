@@ -3,15 +3,19 @@ namespace Blog;
 
 use Blog\Controller\PostController;
 use Blog\Controller\PostListController;
+use Blog\Factory\Controller\PostControllerFactory;
+use Blog\Factory\Controller\PostListControllerFactory;
+use Blog\Factory\Service\PostServiceFactory;
+use Blog\Service\PostService;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Zend\Mvc\Router\Http\Literal;
 use Zend\Mvc\Router\Http\Segment;
 
 return [
     'controllers' => [
-        'invokables' => [
-            PostController::class     => PostController::class,
-            PostListController::class => PostListController::class,
+        'factories' => [
+            PostController::class     => PostControllerFactory::class,
+            PostListController::class => PostListControllerFactory::class,
         ],
     ],
 
@@ -58,10 +62,17 @@ return [
         ],
     ],
 
+    'service_manager' => [
+        'factories' => [
+            PostService::class => PostServiceFactory::class,
+        ],
+    ],
+
     'view_manager' => [
         'template_map' => [
             // Unfortunately .php suffix is needed here due to how path stack works
-            'default/blog/post.php' => __DIR__ .'/../view/default/blog/post.php',
+            'default/blog/post.php'      => __DIR__ .'/../view/default/blog/post.php',
+            'default/blog/post-list.php' => __DIR__ .'/../view/default/blog/post-list.php',
         ],
     ],
 ];
