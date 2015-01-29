@@ -1,9 +1,7 @@
 <?php
 namespace Blog\Controller;
 
-use Blog\Entity\Post;
 use Blog\Service\PostService;
-use Doctrine\ORM\EntityManager;
 use ZfrRest\Mvc\Controller\AbstractRestfulController;
 use ZfrRest\View\Model\ResourceViewModel;
 
@@ -26,11 +24,15 @@ class PostListController extends AbstractRestfulController
         $this->postService = $postService;
     }
 
+    /**
+     * @return ResourceViewModel
+     */
     public function get()
     {
-        // TODO: Add pagination
+        $page = (int) $this->params()->fromQuery('page', 1);
+
         return new ResourceViewModel([
-            'posts' => $this->postService->getPosts(),
+            'posts' => $this->postService->getPosts($page),
         ]);
     }
 }

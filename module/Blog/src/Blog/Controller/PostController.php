@@ -1,9 +1,7 @@
 <?php
 namespace Blog\Controller;
 
-use Blog\Entity\Post;
 use Blog\Service\PostService;
-use Doctrine\ORM\EntityManager;
 use ZfrRest\Mvc\Controller\AbstractRestfulController;
 use ZfrRest\View\Model\ResourceViewModel;
 
@@ -32,8 +30,10 @@ class PostController extends AbstractRestfulController
      */
     public function get(array $params)
     {
+        $id = (int) $params['id'];
+
         return new ResourceViewModel([
-            'post' => $this->postService->getPost($params['id']),
+            'post' => $this->postService->getPost($id),
         ]);
     }
 }

@@ -1,7 +1,9 @@
 <?php
 namespace Blog\Service;
 
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityRepository;
+use DoctrineModule\Paginator\Adapter\Selectable;
+use Zend\Paginator\Paginator;
 
 /**
  * Class PostService
@@ -10,14 +12,14 @@ use Doctrine\Common\Persistence\ObjectRepository;
 class PostService
 {
     /**
-     * @var ObjectRepository
+     * @var EntityRepository
      */
     protected $postRepository;
 
     /**
-     * @param ObjectRepository $postRepository
+     * @param EntityRepository $postRepository
      */
-    public function __construct(ObjectRepository $postRepository)
+    public function __construct(EntityRepository $postRepository)
     {
         $this->postRepository = $postRepository;
     }
@@ -31,8 +33,16 @@ class PostService
         return $this->postRepository->find($id);
     }
 
-    public function getPosts()
+    /**
+     * @param  int $page
+     * @return Paginator
+     */
+    public function getPosts($page = 1)
     {
-        return $this->postRepository->findAll();
+        $adapter   = new Selectable($this->postRepository);
+        $paginator = new Paginator($adapter);
+        $paginator->setCurrentPageNumber($page);
+
+        return $paginator;
     }
 }
