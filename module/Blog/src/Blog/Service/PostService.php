@@ -4,6 +4,7 @@ namespace Blog\Service;
 use Doctrine\ORM\EntityRepository;
 use DoctrineModule\Paginator\Adapter\Selectable;
 use Zend\Paginator\Paginator;
+use ZfrRest\Http\Exception\Client\NotFoundException;
 
 /**
  * Class PostService
@@ -26,11 +27,18 @@ class PostService
 
     /**
      * @param  int $id
-     * @return null|object
+     * @return \Blog\Entity\Post
+     * @throws NotFoundException
      */
     public function getPost($id)
     {
-        return $this->postRepository->find($id);
+        $post = $this->postRepository->find($id);
+
+        if (!$post) {
+            throw new NotFoundException(sprintf('Post with id %d could not be found', $id));
+        }
+
+        return $post;
     }
 
     /**

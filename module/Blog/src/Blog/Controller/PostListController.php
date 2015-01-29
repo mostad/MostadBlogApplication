@@ -29,10 +29,11 @@ class PostListController extends AbstractRestfulController
      */
     public function get()
     {
-        $page = (int) $this->params()->fromQuery('page', 1);
+        $page  = (int) $this->params()->fromQuery('page', 1);
+        $posts = $this->postService->getPosts($page);
 
         return new ResourceViewModel([
-            'posts' => $this->postService->getPosts($page),
+            'posts' => $posts,
         ]);
     }
 }

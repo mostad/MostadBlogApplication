@@ -30,10 +30,11 @@ class PostController extends AbstractRestfulController
      */
     public function get(array $params)
     {
-        $id = (int) $params['id'];
+        $id   = (int) $params['id'];
+        $post = $this->postService->getPost($id);
 
         return new ResourceViewModel([
-            'post' => $this->postService->getPost($id),
+            'post' => $post,
         ]);
     }
 }
