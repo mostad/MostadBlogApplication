@@ -10,15 +10,6 @@ use ZfrRest\Resource\Metadata\Annotation as REST;
  *
  * @ORM\Entity
  * @ORM\Table(name="post")
- *
- * @REST\Resource(
- *      controller="Blog\Controller\PostController",
- *      inputFilter="Blog\InputFilter\PostInputFilter",
- *      hydrator="Zend\Stdlib\Hydrator\ClassMethods"
- * )
- * @REST\Collection(
- *      controller="Blog\Controller\PostsController"
- * )
  */
 class Post
 {

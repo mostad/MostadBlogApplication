@@ -7,23 +7,23 @@ use ZfrRest\Mvc\Controller\AbstractRestfulController;
 use ZfrRest\View\Model\ResourceViewModel;
 
 /**
- * Class PostController
+ * Class PostListController
  * @package Blog\Controller
  */
-class PostController extends AbstractRestfulController
+class PostListController extends AbstractRestfulController
 {
-    public function get(array $params)
+    public function get()
     {
         // TODO: Move to DI
         /** @var \Doctrine\Common\Persistence\ObjectManager $objectManager */
         $objectManager  = $this->getServiceLocator()->get(EntityManager::class);
         $postRepository = $objectManager->getRepository(Post::class);
 
-        $id   = $params['id'];
-        $post = $postRepository->find($id);
+        // TODO: Add pagination
+        $posts = $postRepository->findAll();
 
         return new ResourceViewModel([
-            'post' => $post,
+            'posts' => $posts,
         ]);
     }
 }
