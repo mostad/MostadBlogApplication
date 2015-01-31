@@ -20,13 +20,14 @@ class PostServiceFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceManager)
     {
         /**
-         * @var \Doctrine\Common\Persistence\ObjectManager $objectManager
-         * @var \Zend\ServiceManager\ServiceManager        $serviceManager
+         * @var EntityManager                       $entityManager
+         * @var \Zend\ServiceManager\ServiceManager $serviceManager
          */
-        $objectManager = $serviceManager->get(EntityManager::class);
+        $entityManager = $serviceManager->get(EntityManager::class);
 
         return new PostService(
-            $objectManager->getRepository(Post::class)
+            $entityManager,
+            $entityManager->getRepository(Post::class)
         );
     }
 }

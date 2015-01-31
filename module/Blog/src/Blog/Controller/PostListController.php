@@ -1,7 +1,10 @@
 <?php
 namespace Blog\Controller;
 
+use Blog\Entity\Post;
+use Blog\InputFilter\PostInputFilter;
 use Blog\Service\PostService;
+use Zend\Stdlib\Hydrator\ClassMethods;
 use ZfrRest\Mvc\Controller\AbstractRestfulController;
 use ZfrRest\View\Model\ResourceViewModel;
 
@@ -35,5 +38,19 @@ class PostListController extends AbstractRestfulController
         return new ResourceViewModel([
             'posts' => $posts,
         ]);
+    }
+
+    /**
+     * @return ResourceViewModel
+     */
+    public function post()
+    {
+        // TODO: Create a pull request for ZfrRest to handle empty content and json decode failure
+        $params = $this->validateIncomingData(PostInputFilter::class, ['header', 'body']);
+        $post   = $this->hydrateObject(ClassMethods::class, new Post(), $params);
+
+        $post = $this->postService->create($post);
+
+        return new ResourceViewModel(['post' => $post,], ['template' => 'blog/post']);
     }
 }
