@@ -1,7 +1,9 @@
 <?php
 namespace Blog\InputFilter;
 
+use Zend\Filter\StringTrim;
 use Zend\InputFilter\InputFilter;
+use Zend\Validator\StringLength;
 
 class PostInputFilter extends InputFilter
 {
@@ -12,7 +14,15 @@ class PostInputFilter extends InputFilter
             'required' => true,
             'filters' => [
                 [
-                    'name' => 'StringTrim',
+                    'name' => StringTrim::class,
+                ],
+            ],
+            'validators' => [
+                [
+                    'name' => StringLength::class,
+                    'options' => [
+                        'max' => 128,
+                    ],
                 ],
             ],
         ]);
@@ -22,7 +32,7 @@ class PostInputFilter extends InputFilter
             'required' => true,
             'filters' => [
                 [
-                    'name' => 'StringTrim',
+                    'name' => StringTrim::class,
                 ],
             ],
         ]);
