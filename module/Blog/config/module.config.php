@@ -9,7 +9,6 @@ use Blog\Factory\Service\PostServiceFactory;
 use Blog\InputFilter\PostInputFilter;
 use Blog\Service\PostService;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-use Zend\Json\Exception\RuntimeException;
 use Zend\Mvc\Router\Http\Literal;
 use Zend\Mvc\Router\Http\Segment;
 
