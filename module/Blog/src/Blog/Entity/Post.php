@@ -2,7 +2,6 @@
 namespace Blog\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use ZfrRest\Resource\Metadata\Annotation as REST;
 
 /**
  * Class Post
