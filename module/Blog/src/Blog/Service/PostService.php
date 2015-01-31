@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use DoctrineModule\Paginator\Adapter\Selectable;
 use Zend\Paginator\Paginator;
-use ZfrRest\Http\Exception\Client\NotFoundException;
 
 /**
  * Class PostService
@@ -36,35 +35,6 @@ class PostService
     }
 
     /**
-     * @param  int $id
-     * @return \Blog\Entity\Post
-     * @throws NotFoundException
-     */
-    public function getPost($id)
-    {
-        $post = $this->postRepository->find($id);
-
-        if (!$post) {
-            throw new NotFoundException(sprintf('Post with id %d could not be found', $id));
-        }
-
-        return $post;
-    }
-
-    /**
-     * @param  int $page
-     * @return Paginator
-     */
-    public function getPosts($page = 1)
-    {
-        $adapter   = new Selectable($this->postRepository);
-        $paginator = new Paginator($adapter);
-        $paginator->setCurrentPageNumber($page);
-
-        return $paginator;
-    }
-
-    /**
      * @param  Post $post
      * @return Post
      */
@@ -75,5 +45,22 @@ class PostService
         $this->entityManager->flush();
 
         return $post;
+    }
+
+    /**
+     * @param  int $id
+     * @return Post
+     */
+    public function get($id)
+    {
+        return $this->postRepository->find($id);
+    }
+
+    /**
+     * @return Paginator
+     */
+    public function getAll()
+    {
+        return new Paginator(new Selectable($this->postRepository));
     }
 }

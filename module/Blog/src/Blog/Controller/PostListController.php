@@ -32,12 +32,10 @@ class PostListController extends AbstractRestfulController
      */
     public function get()
     {
-        $page  = (int) $this->params()->fromQuery('page', 1);
-        $posts = $this->postService->getPosts($page);
+        $posts = $this->postService->getAll();
+        $posts->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
 
-        return new ResourceViewModel([
-            'posts' => $posts,
-        ]);
+        return new ResourceViewModel(['posts' => $posts]);
     }
 
     /**
@@ -46,6 +44,7 @@ class PostListController extends AbstractRestfulController
     public function post()
     {
         // TODO: Create a pull request for ZfrRest to handle empty content and json decode failure
+        /** @var Post $post */
         $params = $this->validateIncomingData(PostInputFilter::class, ['header', 'body']);
         $post   = $this->hydrateObject(ClassMethods::class, new Post(), $params);
 

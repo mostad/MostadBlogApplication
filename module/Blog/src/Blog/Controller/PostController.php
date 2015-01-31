@@ -2,6 +2,7 @@
 namespace Blog\Controller;
 
 use Blog\Service\PostService;
+use ZfrRest\Http\Exception\Client\NotFoundException;
 use ZfrRest\Mvc\Controller\AbstractRestfulController;
 use ZfrRest\View\Model\ResourceViewModel;
 
@@ -27,14 +28,14 @@ class PostController extends AbstractRestfulController
     /**
      * @param  array $params
      * @return ResourceViewModel
+     * @throws NotFoundException
      */
     public function get(array $params)
     {
-        $id   = (int) $params['id'];
-        $post = $this->postService->getPost($id);
+        if (!$post = $this->postService->get((int) $params['id'])) {
+            throw new NotFoundException();
+        }
 
-        return new ResourceViewModel([
-            'post' => $post,
-        ]);
+        return new ResourceViewModel(['post' => $post]);
     }
 }
