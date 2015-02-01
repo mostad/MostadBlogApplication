@@ -76,6 +76,10 @@ return [
     ],
 
     'view_manager' => [
+        'strategies' => [
+            'ViewJsonStrategy',
+        ],
+
         'template_map' => [
             // Unfortunately .php suffix is needed here due to how path stack works
             'default/blog/post.php'      => __DIR__ .'/../view/default/blog/post.php',

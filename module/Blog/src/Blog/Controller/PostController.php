@@ -1,7 +1,10 @@
 <?php
 namespace Blog\Controller;
 
+use Blog\InputFilter\PostInputFilter;
 use Blog\Service\PostService;
+use Zend\Stdlib\Hydrator\ClassMethods;
+use Zend\View\Model\JsonModel;
 use ZfrRest\Http\Exception\Client\NotFoundException;
 use ZfrRest\Mvc\Controller\AbstractRestfulController;
 use ZfrRest\View\Model\ResourceViewModel;
@@ -27,6 +30,22 @@ class PostController extends AbstractRestfulController
 
     /**
      * @param  array $params
+     * @return JsonModel
+     * @throws NotFoundException
+     */
+    public function delete(array $params)
+    {
+        if (!$post = $this->postService->get((int) $params['id'])) {
+            throw new NotFoundException();
+        }
+
+        $this->postService->delete($post);
+
+        return new JsonModel();
+    }
+
+    /**
+     * @param  array $params
      * @return ResourceViewModel
      * @throws NotFoundException
      */
@@ -37,5 +56,19 @@ class PostController extends AbstractRestfulController
         }
 
         return new ResourceViewModel(['post' => $post]);
+    }
+
+    public function put(array $params)
+    {
+        if (!$post = $this->postService->get((int) $params['id'])) {
+            throw new NotFoundException();
+        }
+
+        $data = $this->validateIncomingData(PostInputFilter::class);
+        $post = $this->hydrateObject(ClassMethods::class, $post, $data);
+
+        $post = $this->postService->update($post);
+
+        return new ResourceViewModel(['post' => $post,], ['template' => 'blog/post']);
     }
 }

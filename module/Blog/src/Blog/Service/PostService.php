@@ -48,6 +48,16 @@ class PostService
     }
 
     /**
+     * @param Post $post
+     */
+    public function delete(Post $post)
+    {
+        // TODO: Add RBAC through ZfcRbac for permission handling
+        $this->entityManager->remove($post);
+        $this->entityManager->flush();
+    }
+
+    /**
      * @param  int $id
      * @return Post
      */
@@ -62,5 +72,18 @@ class PostService
     public function getAll()
     {
         return new Paginator(new Selectable($this->postRepository));
+    }
+
+    /**
+     * @param  Post $post
+     * @return Post
+     */
+    public function update(Post $post)
+    {
+        // TODO: Add RBAC through ZfcRbac for permission handling
+        $this->entityManager->persist($post);
+        $this->entityManager->flush();
+
+        return $post;
     }
 }

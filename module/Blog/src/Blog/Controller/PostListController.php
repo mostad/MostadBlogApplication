@@ -44,8 +44,8 @@ class PostListController extends AbstractRestfulController
     public function post()
     {
         /** @var Post $post */
-        $params = $this->validateIncomingData(PostInputFilter::class, ['header', 'body']);
-        $post   = $this->hydrateObject(ClassMethods::class, new Post(), $params);
+        $data = $this->validateIncomingData(PostInputFilter::class, ['header', 'body']);
+        $post = $this->hydrateObject(ClassMethods::class, new Post(), $data);
 
         $post = $this->postService->create($post);
 
