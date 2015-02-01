@@ -64,6 +64,7 @@ class PostController extends AbstractRestfulController
             throw new NotFoundException();
         }
 
+        /** @var \Blog\Entity\Post $post */
         $data = $this->validateIncomingData(PostInputFilter::class);
         $post = $this->hydrateObject(ClassMethods::class, $post, $data);
 
