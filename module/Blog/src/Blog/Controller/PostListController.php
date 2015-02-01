@@ -43,7 +43,6 @@ class PostListController extends AbstractRestfulController
      */
     public function post()
     {
-        // TODO: Create a pull request for ZfrRest to handle empty content and json decode failure
         /** @var Post $post */
         $params = $this->validateIncomingData(PostInputFilter::class, ['header', 'body']);
         $post   = $this->hydrateObject(ClassMethods::class, new Post(), $params);
