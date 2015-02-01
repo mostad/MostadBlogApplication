@@ -2,9 +2,10 @@
 namespace Blog\Service;
 
 use Blog\Entity\Post;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use DoctrineModule\Paginator\Adapter\Selectable;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Selectable;
+use Doctrine\Common\Persistence\ObjectManager;
+use DoctrineModule\Paginator\Adapter\Selectable as SelectableAdapter;
 use Zend\Paginator\Paginator;
 
 /**
@@ -14,24 +15,23 @@ use Zend\Paginator\Paginator;
 class PostService
 {
     /**
-     * @var EntityManager
+     * @var ObjectManager
      */
-    protected $entityManager;
+    protected $objectManager;
 
     /**
-     * @var EntityRepository
+     * @var Selectable
      */
-    protected $postRepository;
+    protected $posts;
 
     /**
-     * @param EntityManager    $entityManager
-     * @param EntityRepository $postRepository
-     * TODO: Replace with mapper layer
+     * @param ObjectManager $objectManager
+     * @param Selectable    $posts
      */
-    public function __construct(EntityManager $entityManager, EntityRepository $postRepository)
+    public function __construct(ObjectManager $objectManager, Selectable $posts)
     {
-        $this->entityManager  = $entityManager;
-        $this->postRepository = $postRepository;
+        $this->objectManager = $objectManager;
+        $this->posts         = $posts;
     }
 
     /**
@@ -41,8 +41,8 @@ class PostService
     public function create(Post $post)
     {
         // TODO: Add RBAC through ZfcRbac for permission handling
-        $this->entityManager->persist($post);
-        $this->entityManager->flush();
+        $this->objectManager->persist($post);
+        $this->objectManager->flush();
 
         return $post;
     }
@@ -53,8 +53,8 @@ class PostService
     public function delete(Post $post)
     {
         // TODO: Add RBAC through ZfcRbac for permission handling
-        $this->entityManager->remove($post);
-        $this->entityManager->flush();
+        $this->objectManager->remove($post);
+        $this->objectManager->flush();
     }
 
     /**
@@ -63,7 +63,7 @@ class PostService
      */
     public function get($id)
     {
-        return $this->postRepository->find($id);
+        return $this->posts->matching(Criteria::create()->where(Criteria::expr()->eq('id', $id)))->first();
     }
 
     /**
@@ -71,7 +71,7 @@ class PostService
      */
     public function getAll()
     {
-        return new Paginator(new Selectable($this->postRepository));
+        return new Paginator(new SelectableAdapter($this->posts));
     }
 
     /**
@@ -81,8 +81,8 @@ class PostService
     public function update(Post $post)
     {
         // TODO: Add RBAC through ZfcRbac for permission handling
-        $this->entityManager->persist($post);
-        $this->entityManager->flush();
+        $this->objectManager->persist($post);
+        $this->objectManager->flush();
 
         return $post;
     }
