@@ -58,6 +58,11 @@ class PostController extends AbstractRestfulController
         return new ResourceViewModel(['post' => $post]);
     }
 
+    /**
+     * @param  array $params
+     * @return ResourceViewModel
+     * @throws NotFoundException
+     */
     public function put(array $params)
     {
         if (!$post = $this->postService->get((int) $params['id'])) {
