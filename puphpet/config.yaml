@@ -154,6 +154,7 @@ php:
         display_errors: On
         error_reporting: '-1'
         session.save_path: /var/lib/php/session
+        xdebug.max_nesting_level: 500
     timezone: Europe/Stockholm
     mod_php: 0
 hhvm:
