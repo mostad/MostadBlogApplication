@@ -3,10 +3,12 @@ return [
     'modules' => [
         'DoctrineModule',
         'DoctrineORMModule',
+        'ZfrOAuth2Module\Server',
         'ZfrRest',
 
         'Application',
         'Blog',
+        'User',
     ],
 
     'module_listener_options' => [

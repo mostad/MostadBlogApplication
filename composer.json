@@ -9,12 +9,14 @@
         "php":                          ">=5.5",
         "doctrine/doctrine-orm-module": "~0.8",
         "zendframework/zendframework":  "~2.3",
+        "zfr/zfr-oauth2-server-module": "~0.6",
         "zfr/zfr-rest":                 "~0.4"
     },
     "autoload": {
         "psr-0": {
             "Application\\": "module/Application/src/",
-            "Blog\\":        "module/Blog/src/"
+            "Blog\\":        "module/Blog/src/",
+            "User\\":        "module/User/src/"
         }
     }
 }
