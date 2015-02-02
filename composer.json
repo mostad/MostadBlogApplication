@@ -8,6 +8,7 @@
     "require": {
         "php":                          ">=5.5",
         "doctrine/doctrine-orm-module": "~0.8",
+        "gedmo/doctrine-extensions":    "~2.3",
         "zendframework/zendframework":  "~2.3",
         "zf-commons/zfc-rbac":          "~2.4",
         "zfr/zfr-oauth2-server-module": "~0.6",

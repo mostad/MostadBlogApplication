@@ -2,6 +2,7 @@
 namespace Blog\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Post
@@ -20,6 +21,22 @@ class Post
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $updated;
 
     /**
      * @var string
@@ -41,6 +58,27 @@ class Post
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getUpdated()
+    {
+        // Only return updated if it has actually been updated
+        if ($this->updated > $this->created) {
+            return $this->updated;
+        }
+
+        return null;
     }
 
     /**

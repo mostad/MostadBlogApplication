@@ -3,7 +3,9 @@
 $post = $this->post;
 
 return [
-    'id'     => $post->getId(),
-    'header' => $post->getHeader(),
-    'body'   => $post->getBody(),
+    'id'      => $post->getId(),
+    'created' => $post->getCreated(),
+    'updated' => $post->getUpdated(),
+    'header'  => $post->getHeader(),
+    'body'    => $post->getBody(),
 ];

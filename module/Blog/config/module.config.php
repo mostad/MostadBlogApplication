@@ -9,6 +9,7 @@ use Blog\Factory\Service\PostServiceFactory;
 use Blog\InputFilter\PostInputFilter;
 use Blog\Service\PostService;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Gedmo\Timestampable\TimestampableListener;
 use Zend\Mvc\Router\Http\Literal;
 use Zend\Mvc\Router\Http\Segment;
 use ZfcRbac\Role\InMemoryRoleProvider;
@@ -30,6 +31,13 @@ return [
             'orm_default' => [
                 'drivers' => [
                     __NAMESPACE__ .'\Entity'  => __NAMESPACE__ .'\Entity',
+                ],
+            ],
+        ],
+        'eventmanager' => [
+            'orm_default' => [
+                'subscribers' => [
+                    TimestampableListener::class,
                 ],
             ],
         ],
