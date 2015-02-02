@@ -1,7 +1,6 @@
 <?php
 namespace User\Grant;
 
-use User\Entity\User;
 use User\Service\UserService;
 use Zend\Http\Request;
 use Zend\Http\Response;
@@ -46,7 +45,8 @@ class GoogleGrant extends AbstractGrant implements AuthorizationServerAwareInter
     {
         // TODO: Complete rewrite. This is just a temp method to allow token generation
         $owner = $this->userService->get($request->getPost('id'));
-        if (!$owner instanceof User) {
+        $scope = 'foobar';
+        if (!$owner instanceof TokenOwnerInterface) {
             throw OAuth2Exception::accessDenied('access_denied');
         }
 
@@ -57,13 +57,13 @@ class GoogleGrant extends AbstractGrant implements AuthorizationServerAwareInter
         $accessToken  = new AccessToken();
         $refreshToken = null;
 
-        $this->populateToken($accessToken, $client, $owner, 'foobar');
+        $this->populateToken($accessToken, $client, $owner, $scope);
         $accessToken = $this->accessTokenService->createToken($accessToken);
 
         // Before generating a refresh token, we must make sure the authorization server supports this grant
         if ($this->authorizationServer->hasGrant(RefreshTokenGrant::GRANT_TYPE)) {
             $refreshToken = new RefreshToken();
-            $this->populateToken($refreshToken, $client, $owner, 'foobar');
+            $this->populateToken($refreshToken, $client, $owner, $scope);
             $refreshToken = $this->refreshTokenService->createToken($refreshToken);
         }
 
