@@ -11,6 +11,7 @@ use Blog\Service\PostService;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Zend\Mvc\Router\Http\Literal;
 use Zend\Mvc\Router\Http\Segment;
+use ZfcRbac\Role\InMemoryRoleProvider;
 
 return [
     'controllers' => [
@@ -84,6 +85,21 @@ return [
             // Unfortunately .php suffix is needed here due to how path stack works
             'default/blog/post.php'      => __DIR__ .'/../view/default/blog/post.php',
             'default/blog/post-list.php' => __DIR__ .'/../view/default/blog/post-list.php',
+        ],
+    ],
+
+
+    'zfc_rbac' => [
+        'role_provider' => [
+            InMemoryRoleProvider::class => [
+                'administrator' => [
+                    'permissions' => [
+                        PostService::CREATE,
+                        PostService::DELETE,
+                        PostService::UPDATE,
+                    ],
+                ],
+            ],
         ],
     ],
 ];

@@ -6,6 +6,7 @@ use Blog\Service\PostService;
 use Doctrine\ORM\EntityManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use ZfcRbac\Service\AuthorizationService;
 
 /**
  * Class PostServiceFactory
@@ -20,12 +21,15 @@ class PostServiceFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceManager)
     {
         /**
+         * @var AuthorizationService                $authorizationService
          * @var EntityManager                       $entityManager
          * @var \Zend\ServiceManager\ServiceManager $serviceManager
          */
-        $entityManager = $serviceManager->get(EntityManager::class);
+        $authorizationService = $serviceManager->get(AuthorizationService::class);
+        $entityManager        = $serviceManager->get(EntityManager::class);
 
         return new PostService(
+            $authorizationService,
             $entityManager,
             $entityManager->getRepository(Post::class)
         );

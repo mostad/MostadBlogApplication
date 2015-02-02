@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Selectable;
 use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Paginator\Adapter\Selectable as SelectableAdapter;
 use Zend\Paginator\Paginator;
+use ZfcRbac\Service\AuthorizationService;
+use ZfrRest\Http\Exception\Client\UnauthorizedException;
 
 /**
  * Class PostService
@@ -14,6 +16,15 @@ use Zend\Paginator\Paginator;
  */
 class PostService
 {
+    const CREATE = 'Blog\Service\PostService.create';
+    const DELETE = 'Blog\Service\PostService.delete';
+    const UPDATE = 'Blog\Service\PostService.update';
+
+    /**
+     * @var AuthorizationService
+     */
+    protected $authorizationService;
+
     /**
      * @var ObjectManager
      */
@@ -25,22 +36,28 @@ class PostService
     protected $posts;
 
     /**
-     * @param ObjectManager $objectManager
-     * @param Selectable    $posts
+     * @param AuthorizationService $authorizationService
+     * @param ObjectManager        $objectManager
+     * @param Selectable           $posts
      */
-    public function __construct(ObjectManager $objectManager, Selectable $posts)
+    public function __construct(AuthorizationService $authorizationService, ObjectManager $objectManager, Selectable $posts)
     {
-        $this->objectManager = $objectManager;
-        $this->posts         = $posts;
+        $this->authorizationService = $authorizationService;
+        $this->objectManager        = $objectManager;
+        $this->posts                = $posts;
     }
 
     /**
      * @param  Post $post
      * @return Post
+     * @throws UnauthorizedException
      */
     public function create(Post $post)
     {
-        // TODO: Add RBAC through ZfcRbac for permission handling
+        if (!$this->authorizationService->isGranted(self::CREATE)) {
+            throw new UnauthorizedException();
+        }
+
         $this->objectManager->persist($post);
         $this->objectManager->flush();
 
@@ -48,11 +65,15 @@ class PostService
     }
 
     /**
-     * @param Post $post
+     * @param  Post $post
+     * @throws UnauthorizedException
      */
     public function delete(Post $post)
     {
-        // TODO: Add RBAC through ZfcRbac for permission handling
+        if (!$this->authorizationService->isGranted(self::DELETE)) {
+            throw new UnauthorizedException();
+        }
+
         $this->objectManager->remove($post);
         $this->objectManager->flush();
     }
@@ -77,10 +98,14 @@ class PostService
     /**
      * @param  Post $post
      * @return Post
+     * @throws UnauthorizedException
      */
     public function update(Post $post)
     {
-        // TODO: Add RBAC through ZfcRbac for permission handling
+        if (!$this->authorizationService->isGranted(self::UPDATE)) {
+            throw new UnauthorizedException();
+        }
+
         $this->objectManager->persist($post);
         $this->objectManager->flush();
 
