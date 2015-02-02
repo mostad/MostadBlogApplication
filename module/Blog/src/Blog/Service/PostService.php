@@ -16,9 +16,9 @@ use ZfrRest\Http\Exception\Client\UnauthorizedException;
  */
 class PostService
 {
-    const CREATE = 'Blog\Service\PostService.create';
-    const DELETE = 'Blog\Service\PostService.delete';
-    const UPDATE = 'Blog\Service\PostService.update';
+    const PERMISSION_CREATE = 'Blog\Service\PostService.create';
+    const PERMISSION_DELETE = 'Blog\Service\PostService.delete';
+    const PERMISSION_UPDATE = 'Blog\Service\PostService.update';
 
     /**
      * @var AuthorizationService

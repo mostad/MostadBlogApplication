@@ -94,9 +94,9 @@ return [
             InMemoryRoleProvider::class => [
                 'administrator' => [
                     'permissions' => [
-                        PostService::CREATE,
-                        PostService::DELETE,
-                        PostService::UPDATE,
+                        PostService::PERMISSION_CREATE,
+                        PostService::PERMISSION_DELETE,
+                        PostService::PERMISSION_UPDATE,
                     ],
                 ],
             ],
