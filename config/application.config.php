@@ -3,6 +3,7 @@ return [
     'modules' => [
         'DoctrineModule',
         'DoctrineORMModule',
+        'ZfcRbac',
         'ZfrOAuth2Module\Server',
         'ZfrRest',
 

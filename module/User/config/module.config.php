@@ -10,8 +10,10 @@ use User\Grant\GoogleGrant;
 use User\Service\UserService;
 use Zend\Authentication\AuthenticationService;
 use ZfrOAuth2\Server\Entity\TokenOwnerInterface;
+use ZfrOAuth2\Server\Exception\InvalidAccessTokenException;
 use ZfrOAuth2\Server\Grant\RefreshTokenGrant;
 use ZfrOAuth2Module\Server\Factory\AuthenticationServiceFactory;
+use ZfrRest\Http\Exception\Client\UnauthorizedException;
 
 return [
     'doctrine' => [
@@ -53,5 +55,11 @@ return [
             RefreshTokenGrant::class,
         ],
         'object_manager' => EntityManager::class,
+    ],
+
+    'zfr_rest' => [
+        'exception_map' => [
+            InvalidAccessTokenException::class => UnauthorizedException::class
+        ],
     ],
 ];
